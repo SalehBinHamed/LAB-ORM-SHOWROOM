@@ -1,0 +1,51 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DaisyUI with CDN</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <!-- DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar bg-base-100">
+        <div class="flex-none">
+          <button class="btn btn-square btn-ghost">
+            <ul class="menu bg-base-200 rounded-box w-56">
+                <li><a>Item 1</a></li>
+                <li>
+                  <span class="menu-dropdown-toggle">Parent</span>
+                  <ul class="menu-dropdown">
+                    <li><a>Submenu 1</a></li>
+                    <li><a>Submenu 2</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="menu bg-base-200 rounded-box w-56">
+                <li><a>Item 1</a></li>
+                <li>
+                  <span class="menu-dropdown-toggle menu-dropdown-show">Parent</span>
+                  <ul class="menu-dropdown menu-dropdown-show">
+                    <li><a>Submenu 1</a></li>
+                    <li><a>Submenu 2</a></li>
+                  </ul>
+                </li>
+              </ul>
+          </button>
+        </div>
+        <div class="flex-1">
+          <a class="btn btn-ghost text-xl">Mini Haraj</a>
+        </div>
+            <div class="flex-none gap-2">
+                <div class="form-control">
+                  <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+        </div>
+      </div>
+        {% block content %}
+
+{% endblock  %}
+    </div>
+</body>
+</html>
