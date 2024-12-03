@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-xl p-10 w-full max-w-3xl">
+        <h1 class="text-3xl font-extrabold text-center mb-8 text-gray-800">Create a New Brand</h1>
+
+        <form action="{% url 'create_brand' %}" method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+             <div class="form-control space-y-4">
+                {{ brands.as_p }}
+            </div>
+            
+             <div class="flex justify-center">
+                <button 
+                    type="submit" 
+                    class="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-lg text-lg shadow-md">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

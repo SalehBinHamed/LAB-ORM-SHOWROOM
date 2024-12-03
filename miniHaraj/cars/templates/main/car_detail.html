@@ -1,0 +1,33 @@
+<!-- templates/cars/car_detail.html -->
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ car.name }}</h1>
+
+<div class="card lg:card-side bg-base-100 shadow-xl">
+    {% if car.photo %}
+    <figure class="w-full lg:w-1/2">
+        <img src="{{ car.photo.url }}" alt="{{ car.name }}" class="w-full h-full object-cover">
+    </figure>
+    {% endif %}
+    <div class="card-body">
+        <h2 class="card-title">{{ car.brand.name }} - {{ car.model }} ({{ car.year }})</h2>
+        <p>{{ car.specs }}</p>
+        <p><strong>Available Colors:</strong></p>
+        <ul>
+            {% for color in car.colors.all %}
+            <li>{{ color.color }}</li>
+            {% endfor %}
+        </ul>
+        <div class="card-actions justify-end">
+            <a href="{% url 'car_update' car.id %}" class="btn btn-secondary">Edit</a>
+            <form action="{% url 'car_delete' car.id %}" method="post" class="inline" onsubmit="return confirm('ARE YOU SURE YOU WANT TO DELETE IT?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-error"> Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'all_views' %}" class="btn btn-link mt-4">Back to Cars</a>
+{% endblock %}

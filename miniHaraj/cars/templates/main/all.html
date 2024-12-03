@@ -1,0 +1,73 @@
+<!-- templates/cars/car_list.html -->
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">All Cars</h1>
+
+<!-- Filters -->
+<form method="get" class="mb-4">
+    <div class="flex flex-wrap gap-4">
+        <input type="text" name="search" placeholder="Search by name" value="{{ request.GET.search }}" class="input input-bordered">
+        <select name="brand" class="select select-bordered">
+            <option value="">All Brands</option>
+            {% for brand in brands %}
+            <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"s" %}selected{% endif %}>
+                {{ brand.name }}
+            </option>
+            {% endfor %}
+        </select>
+        <select name="color" class="select select-bordered">
+            <option value="">All Colors</option>
+            {% for color in colors %}
+            <option value="{{ color.id }}" {% if request.GET.color == color.id|stringformat:"s" %}selected{% endif %}>
+                {{ color.color }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% for car in cars %}
+    <div class="card bg-base-100 shadow-xl">
+        <figure>
+            {% if car.photo %}
+            <img src="{{ car.photo.url }}" alt="{{ car.name }}" class="w-full h-48 object-cover">
+            {% else %}
+            <img  alt="{{ car.name }}" class="w-full h-48 object-cover">
+            {% endif %}
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ car.name }}</h2>
+            <p>{{ car.specs|truncatewords:15 }}</p>
+            <div class="card-actions justify-end">
+                <a href="{% url 'car_detail' car.id %}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No cars found.</p>
+    {% endfor %}
+</div>
+
+<div class="mt-4">
+    <div class="btn-group">
+        {% if cars.has_previous %}
+        <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}
+                  {% if request.GET.brand %}brand={{ request.GET.brand }}&{% endif %}
+                  {% if request.GET.color %}color={{ request.GET.color }}&{% endif %}
+                  page={{ cars.previous_page_number }}" class="btn">Previous</a>
+        {% endif %}
+        <button class="btn">Page {{ cars.number }} of {{ cars.paginator.num_pages }}</button>
+        {% if cars.has_next %}
+        <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}
+                  {% if request.GET.brand %}brand={{ request.GET.brand }}&{% endif %}
+                  {% if request.GET.color %}color={{ request.GET.color }}&{% endif %}
+                  page={{ cars.next_page_number }}" class="btn">Next</a>
+        {% endif %}
+    </div>
+</div>
+
+<a href="{% url 'create_views' %}" class="btn btn-secondary mt-4">Add New Car</a>
+{% endblock %}

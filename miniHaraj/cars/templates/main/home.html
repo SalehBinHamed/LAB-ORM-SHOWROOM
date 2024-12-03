@@ -1,4 +1,50 @@
 {% extends 'main/base.html' %}
-{% block content %}
 
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Welcome to Mini Haraj</h1>
+
+<h2 class="text-xl font-semibold mb-2">Latest Cars</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% for car in latest_cars %}
+    <div class="card bg-base-100 shadow-xl">
+        <figure>
+            {% if car.photo %}
+            <img src="{{ car.photo.url }}" alt="{{ car.name }}" class="w-full h-48 object-cover">
+            {% else %}
+            {% endif %}
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ car.name }}</h2>
+            <p>{{ car.specs|truncatewords:15 }}</p>
+            <div class="card-actions justify-end">
+                <a href="{% url 'car_detail' car.id %}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<a href="{% url 'all_views' %}" class="btn btn-link mt-4">View All Cars</a>
+
+<h2 class="text-xl font-semibold mt-8 mb-2">Latest Brands</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% for brand in latest_brands %}
+    <div class="card bg-base-100 shadow-xl">
+        <figure>
+            {% if brand.logo %}
+            {% comment %} <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-48 object-cover"> {% endcomment %}
+            {% else %}
+            <img  alt="{{ brand.name }}" class="w-full h-48 object-cover">
+            {% endif %}
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ brand.name }}</h2>
+            <p>{{ brand.about|truncatewords:15 }}</p>
+            <div class="card-actions justify-end">
+                <a href="{% url 'brand_detail' brand.id %}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<a href="{% url 'brand_list' %}" class="btn btn-link mt-4">View All Brands</a>
 {% endblock  %}

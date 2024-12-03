@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{% if form.instance.pk %}Edit Car{% else %}Add New Car{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+        <label class="block font-medium">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+        <p class="text-red-500 text-sm">{{ field.errors }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update{% else %}Create{% endif %}</button>
+</form>
+
+<a href="{% url 'all_views' %}" class="btn btn-link mt-4">Back to Cars</a>
+{% endblock %}
